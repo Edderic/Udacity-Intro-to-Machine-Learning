@@ -28,14 +28,16 @@ plt.show()
 #################################################################################
 
 
-### your code here!  name your classifier object clf if you want the 
+### your code here!  name your classifier object clf if you want the
 ### visualization code (prettyPicture) to show you the decision boundary
 
-
-
-
-
-
+# k-nearest neighbor with k=3
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=3)
+clf.fit(features_train, labels_train)
+print "Score:"
+print clf.score(features_test, labels_test)
+# .9733333... with k = 3
 
 
 try:

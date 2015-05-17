@@ -1,6 +1,6 @@
-#!/usr/bin/python 
+#!/usr/bin/python
 
-""" 
+"""
     skeleton code for k-means clustering mini-project
 
 """
@@ -41,12 +41,12 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
 
 ### load in the dict of dicts containing all the data on each person in the dataset
 data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r") )
-### there's an outlier--remove it! 
+### there's an outlier--remove it!
 data_dict.pop("TOTAL", 0)
 
 
-### the input features we want to use 
-### can be any key in the person-level dictionary (salary, director_fees, etc.) 
+### the input features we want to use
+### can be any key in the person-level dictionary (salary, director_fees, etc.)
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 poi  = "poi"
@@ -54,9 +54,29 @@ features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
+exercised_stock_options = []
+salaries = []
+for row in data:
+    exercised_stock_option = row[2]
+    salary = row[1]
+    if exercised_stock_option > 0:
+        exercised_stock_options.append(exercised_stock_option)
+    if salary > 0:
+        salaries.append(salary)
+
+
+minimum_exercised_stock_options = min(exercised_stock_options)
+maximum_exercised_stock_options = max(exercised_stock_options)
+minimum_salary = min(salaries)
+maximum_salary = max(salaries)
+print "minimum exercised_stock_options", minimum_exercised_stock_options
+print "maximum exercised_stock_options", maximum_exercised_stock_options
+print "minimum salary", minimum_salary
+print "maximum salary", maximum_salary
+
 
 ### in the "clustering with 3 features" part of the mini-project,
-### you'll want to change this line to 
+### you'll want to change this line to
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, line below assumes 2 features)
 for f1, f2 in finance_features:
@@ -76,9 +96,14 @@ Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=fe
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.preprocessing import MinMaxScaler
+mms = MinMaxScaler()
+feature_transformed = mms.fit_transform(finance_features)
+# print 'finance_features', finance_features
+# print 'feature_transformed', feature_transformed
 
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, feature_transformed, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
 

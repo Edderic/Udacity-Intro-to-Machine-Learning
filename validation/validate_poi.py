@@ -27,6 +27,18 @@ labels, features = targetFeatureSplit(data)
 
 
 
-### it's all yours from here forward!  
+### it's all yours from here forward!
+
+from sklearn import tree
+from sklearn import cross_validation
+features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(features, labels, random_state=42, test_size=.3)
+clf = tree.DecisionTreeClassifier()
+proper_clf = tree.DecisionTreeClassifier()
+
+clf.fit(features, labels)
+proper_clf.fit(features_train, labels_train)
+
+print 'overfit score: ', clf.score(features, labels)
+print 'properly fit score: ', proper_clf.score(features_test, labels_test)
 
 
