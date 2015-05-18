@@ -16,6 +16,8 @@ features_list = ['poi','salary', 'total_payments', 'exercised_stock_options', 'b
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
 
 ### Task 2: Remove outliers
+data_dict.pop('TOTAL')
+
 ### Task 3: Create new feature(s)
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
