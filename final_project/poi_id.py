@@ -10,7 +10,7 @@ from tester import test_classifier, dump_classifier_and_data
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-features_list = ['poi','salary', 'long_term_incentive', 'total_payments', 'exercised_stock_options', 'bonus', 'shared_receipt_with_poi', 'total_stock_value', 'restricted_stock',  'director_fees'] # You will need to use more features
+features_list = ['poi','salary', 'long_term_incentive', 'total_payments', 'exercised_stock_options', 'deferral_payments','bonus', 'shared_receipt_with_poi', 'total_stock_value', 'restricted_stock',  'director_fees', 'other'] # You will need to use more features
 
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
@@ -42,15 +42,15 @@ estimators = [('reduce_dim', PCA(n_components=4)), ('nb', GaussianNB())]
 clf = Pipeline(estimators)
 # clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
 
-### Task 5: Tune your classifier to achieve better than .3 precision and recall 
+### Task 5: Tune your classifier to achieve better than .3 precision and recall
 ### using our testing script.
 ### Because of the small size of the dataset, the script uses stratified
-### shuffle split cross validation. For more info: 
+### shuffle split cross validation. For more info:
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
 test_classifier(clf, my_dataset, features_list)
 
-### Dump your classifier, dataset, and features_list so 
+### Dump your classifier, dataset, and features_list so
 ### anyone can run/check your results.
 
 dump_classifier_and_data(clf, my_dataset, features_list)
