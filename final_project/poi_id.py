@@ -10,7 +10,7 @@ from tester import test_classifier, dump_classifier_and_data
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-features_list = ['poi','salary', 'long_term_incentive', 'total_payments', 'exercised_stock_options', 'bonus'] # You will need to use more features
+features_list = ['poi','salary', 'long_term_incentive', 'total_payments', 'exercised_stock_options', 'bonus', 'shared_receipt_with_poi', 'total_stock_value', 'restricted_stock',  'director_fees'] # You will need to use more features
 
 ### Load the dictionary containing the dataset
 data_dict = pickle.load(open("final_project_dataset.pkl", "r") )
@@ -33,8 +33,14 @@ labels, features = targetFeatureSplit(data)
 ### you'll need to use Pipelines. For more info:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
+from sklearn.decomposition import PCA
 from sklearn.naive_bayes import GaussianNB
-clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
+estimators = [('reduce_dim', PCA(n_components=4)), ('nb', GaussianNB())]
+# estimators = [('reduce_dim', PCA(n_components=2)), ('svm', SVC())]
+clf = Pipeline(estimators)
+# clf = GaussianNB()    # Provided to give you a starting point. Try a varity of classifiers.
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script.
